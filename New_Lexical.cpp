@@ -29,25 +29,11 @@ bool isIdentifier(const string& word) {
     return regex_match(word, regex("[a-zA-Z_][a-zA-Z0-9_]*"));
 }
 
-// // Check if the given word is a constant (integer or floating-point)
-// bool isConstant(const string& word) {
-//     return regex_match(word, regex("[0-9]+(\\.[0-9]+)?"));
-// }
+// Check if the given word is a constant (integer or floating-point or neg)
 bool isConstant(const string& word) {
-    bool decimalPoint = false; // Flag to indicate if a decimal point has been encountered
-    bool digitFound = false;   // Flag to indicate if a digit has been found
-    
-    for (size_t i = 0; i < word.size(); ++i) { // Iterate through each character in the string
-        if (isdigit(word[i])) {                // Check if the current character is a digit
-            digitFound = true;                 // Set digitFound to true if a digit is found
-        } else if (word[i] == '.' && !decimalPoint) { // Check if the current character is a decimal point and if it's the first one encountered
-            decimalPoint = true;               // Set decimalPoint to true if a decimal point is found
-        } else {                               // If the current character is neither a digit nor a valid decimal point
-            return false;                      // Return false as the string is not a constant
-        }
-    }
-    return digitFound;                         // Return true if at least one digit was found, indicating a valid constant
+    return regex_match(word, regex("([-])?+[0-9]+(\\.[0-9]+)?"));
 }
+
 
 // Check if the given word is an operator
 bool isOperator(const string& word) {
@@ -189,8 +175,6 @@ int main() {
     printTokens("Operators", operators);
     printTokens("Punctuations", punctuations);
     printTokens("Parenthesis", parenthesis);
-    printTokens("String Literals", stringLiterals);
-    printTokens("Pre Processors", preProcessors);
 
     return 0;
 }
